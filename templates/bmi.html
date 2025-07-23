@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BMI Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f9f8;
+            padding: 20px;
+        }
+        .container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            width: 60%;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #006666;
+        }
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+        input, select {
+            padding: 8px;
+            width: 100%;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #00b3b3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #009999;
+        }
+        h3, p {
+            text-align: center;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #006666;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Body Mass Index (BMI) Calculator</h2>
+
+        <form method="POST">
+            <label for="height">Height:</label>
+            <input type="number" name="height" step="0.01" required>
+            <select name="unit">
+                <option value="cm">cm</option>
+                <option value="m">meters</option>
+            </select>
+
+            <label for="weight">Weight (kg):</label>
+            <input type="number" name="weight" step="0.1" required>
+
+            <button type="submit">Calculate</button>
+        </form>
+
+        {% if result %}
+            <h3>Your BMI: {{ result.bmi }}</h3>
+            <p>Status: <strong>{{ result.category }}</strong></p>
+            <p>Suggestion: {{ result.suggestion }}</p>
+        {% endif %}
+
+        <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+    </div>
+</body>
+</html>

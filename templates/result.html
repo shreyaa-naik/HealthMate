@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prediction Result</title>
+  
+  <style>
+    body { font-family: Arial; background: #e9f5f2; padding: 20px; }
+    .card { background: white; padding: 20px; border-radius: 10px; width: 50%; margin: auto; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Disease Predicted: {{ disease }}</h2>
+    <p><strong>Description:</strong> {{ description }}</p>
+    <p><strong>Severity Score:</strong> {{ severity }}</p>
+    <p><strong>Precautions:</strong></p>
+    <ul>
+      {% for p in precautions %}
+      <li>{{ p }}</li>
+      {% endfor %}
+    </ul>
+    <a href="/symptom-checker">← Predict again</a>
+
+  </div>
+</body>
+</html>

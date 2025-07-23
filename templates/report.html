@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Health Report{% endblock %}
+{% block content %}
+<h2>Your Health Logs</h2>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+{% if logs %}
+  <table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>BP</th>
+        <th>Glucose</th>
+        <th>Sleep (hrs)</th>
+        <th>Water (L)</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+      <tr>
+        <td>{{ log.date }}</td>
+        <td>{{ log.bp }}</td>
+        <td>{{ log.glucose }}</td>
+        <td>{{ log.sleep }}</td>
+        <td>{{ log.water }}</td>
+        <td>{{ log.notes }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No logs available.</p>
+{% endif %}
+{% endblock %}

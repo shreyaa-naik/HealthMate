@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Health Log</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { font-family: Arial; background: #eef7f6; padding: 20px; }
+        .container { background: #fff; padding: 25px; border-radius: 10px; width: 50%; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #006666; }
+        label { display: block; margin-top: 10px; }
+        input, textarea { width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+        button { margin-top: 15px; padding: 10px 20px; background: #00b3b3; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        a { text-decoration: none; display: block; text-align: center; margin-top: 10px; color: #006666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add Health Log</h2>
+        <form method="POST">
+            <label>Blood Pressure</label>
+            <input type="text" name="blood_pressure" required>
+
+            <label>Glucose Level</label>
+            <input type="text" name="glucose_level" required>
+
+            <label>Sleep Hours</label>
+            <input type="number" name="sleep_hours" step="0.1" required>
+
+            <label>Water Intake (liters)</label>
+            <input type="number" name="water_intake" step="0.1" required>
+
+            <label>Exercise Notes</label>
+            <textarea name="exercise_notes"></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+        <a href="/dashboard">← Back to Dashboard</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - HealthMate</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(-45deg, #e0f7fa, #e1f5fe, #c8e6c9, #fce4ec);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .form-container {
+      background: #ffffffcc;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .form-container h2 {
+      margin-bottom: 24px;
+      color: #2b6777;
+    }
+
+    .form-container input,
+    .form-container select {
+      width: 90%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .form-container button {
+      width: 95%;
+      padding: 12px;
+      background-color: #2b6777;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background-color: #14414e;
+    }
+
+    .form-container a {
+      color: #2b6777;
+      text-decoration: none;
+    }
+
+    .flash {
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 500px) {
+      .form-container {
+        padding: 30px 20px;
+      }
+
+      .form-container input,
+      .form-container select,
+      .form-container button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Create an Account</h2>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+    <form method="POST">
+  <input type="text" name="username" placeholder="Username" required><br>
+  <input type="email" name="email" placeholder="Email Address" required><br>
+  <input type="password" name="password" placeholder="Password" required><br>
+  <input type="date" name="dob" placeholder="Date of Birth" required><br>
+  <select name="gender" required>
+    <option value="" disabled selected>Select Gender</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+    <option value="Other">Other</option>
+  </select><br>
+  <button type="submit">Register</button>
+</form>
+
+    <p style="margin-top: 14px;">Already have an account? <a href="/login">Login here</a></p>
+  </div>
+</body>
+</html>

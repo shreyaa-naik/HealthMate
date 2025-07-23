@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Health Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #999;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Health Report</h1>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Blood Pressure</th>
+            <th>Glucose Level</th>
+            <th>Sleep Hours</th>
+            <th>Water Intake (L)</th>
+            <th>Exercise Notes</th>
+        </tr>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.date.strftime('%Y-%m-%d') if log.date else '' }}</td>
+            <td>{{ log.blood_pressure or 'N/A' }}</td>
+            <td>{{ log.glucose_level or 'N/A' }}</td>
+            <td>{{ log.sleep_hours or 'N/A' }}</td>
+            <td>{{ log.water_intake or 'N/A' }}</td>
+            <td>{{ log.exercise_notes or 'N/A' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

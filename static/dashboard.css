@@ -1,0 +1,117 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f4f6fc;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 250px;
+  background: #0d6efd;
+  color: white;
+  padding: 2rem 1rem;
+}
+
+.sidebar h2 {
+  margin-bottom: 2rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.sidebar ul li.active,
+.sidebar ul li:hover {
+  background: white;
+  color: #0d6efd;
+}
+
+.hospital-card {
+  margin-top: 2rem;
+  background: #ffffff33;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.hospital-card button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border: none;
+  background: white;
+  color: #0d6efd;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cards {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.card {
+  background: white;
+  flex: 1;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.card.teal { border-left: 6px solid #00bcd4; }
+.card.blue { border-left: 6px solid #3f51b5; }
+.card.orange { border-left: 6px solid #ff9800; }
+
+.chart-section {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+.bottom-widgets {
+  display: flex;
+  gap: 2rem;
+}
+
+.donut-chart,
+.radar-chart,
+.doctor-plan {
+  flex: 1;
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  height: 300px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.doctor-plan ul {
+  padding-left: 20px;
+  margin-top: 1rem;
+}

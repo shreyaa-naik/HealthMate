@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medicine Expiry Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f7fc;
+            padding: 30px;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        form input, form button {
+            padding: 12px 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            flex: 1;
+        }
+
+        form input[type="date"] {
+            flex: 1.2;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            flex: 0.5;
+            transition: background 0.3s;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #f9f9f9;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .urgent {
+            color: #e63946;
+            font-weight: bold;
+        }
+
+        .urgent::before {
+            content: '⚠ ';
+        }
+
+        .normal {
+            color: #2a9d8f;
+        }
+
+        a.delete-icon {
+            text-decoration: none;
+            font-size: 18px;
+            padding: 4px;
+            transition: transform 0.2s;
+        }
+
+        a.delete-icon:hover {
+            color: #d90429;
+            transform: scale(1.2);
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            color: #0077b6;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🧪 Medicine Expiry Tracker</h2>
+
+        <form method="POST">
+            <input name="medicine_name" placeholder="Medicine Name" required>
+            <input type="date" name="expiry_date" required>
+            <button type="submit">Add</button>
+        </form>
+
+        <h3>📅 Upcoming Expiries</h3>
+        <ul>
+            {% for med in medicines %}
+                <li>
+                    <span class="{{ 'urgent' if med.is_urgent else 'normal' }}">
+                        {{ med.medicine_name }} - Expires on {{ med.expiry_date }} (in {{ med.days_left }} days)
+                    </span>
+                    <a href="{{ url_for('delete_medicine', med_id=med.id) }}" class="delete-icon" onclick="return confirm('Delete this medicine?')">🗑</a>
+                </li>
+            {% else %}
+                <li>No medicines added yet.</li>
+            {% endfor %}
+        </ul>
+
+        <a class="back-link" href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+    </div>
+</body>
+</html>

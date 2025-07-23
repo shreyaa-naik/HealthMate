@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 1000px; margin: 30px auto;">
+    <h2 style="text-align: center; color: #006666; margin-bottom: 40px;">📊 Health Trends</h2>
+    
+    <div class="chart-container" style="margin-bottom: 50px;">
+        <canvas id="glucoseChart"></canvas>
+    </div>
+    <div class="chart-container" style="margin-bottom: 50px;">
+        <canvas id="bpChart"></canvas>
+    </div>
+    <div class="chart-container" style="margin-bottom: 50px;">
+        <canvas id="sleepChart"></canvas>
+    </div>
+    <div class="chart-container" style="margin-bottom: 30px;">
+        <canvas id="waterChart"></canvas>
+    </div>
+
+    <!-- Back to Dashboard link -->
+    <a href="{{ url_for('dashboard') }}" style="display: block; text-align: center; margin-top: 40px; color: #006666;  text-decoration: none;">
+        ← Back to Dashboard
+    </a>
+</div>
+
+<style>
+    .chart-container {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = {{ labels | tojson }};
+    const glucose = {{ glucose | tojson }};
+    const sleep = {{ sleep | tojson }};
+    const water = {{ water | tojson }};
+    const bpValues = {{ blood_pressure | tojson }};  // full '120/80' strings
+
+    // Extract systolic (for numeric Y-axis plotting)
+    const bpNumeric = bpValues.map(bp => {
+        if (bp && bp.includes("/")) {
+            return parseInt(bp.split("/")[0]); // use systolic for chart
+        }
+        return null;
+    });
+
+    const commonOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: true, position: 'top' },
+            title: { display: true, text: '', font: { size: 18 } }
+        },
+        scales: {
+            x: { title: { display: true, text: 'Date' } },
+            y: { beginAtZero: true }
+        }
+    };
+
+    new Chart(document.getElementById("glucoseChart"), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Glucose Level',
+                data: glucose,
+                borderColor: 'orange',
+                backgroundColor: 'rgba(255,165,0,0.2)',
+                tension: 0.3,
+                fill: true,
+                pointRadius: 3
+            }]
+        },
+        options: {
+            ...commonOptions,
+            plugins: {
+                ...commonOptions.plugins,
+                title: { display: true, text: 'Glucose Level Over Time' }
+            }
+        }
+    });
+
+    new Chart(document.getElementById("bpChart"), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Blood_pressure Level',
+                data: bpValues,
+                borderColor: 'red',
+                backgroundColor: 'rgba(249, 4, 4, 0.2)',
+                tension: 0.3,
+                fill: true,
+                pointRadius: 3
+            }]
+        },
+        options: {
+            ...commonOptions,
+            plugins: {
+                ...commonOptions.plugins,
+                title: { display: true, text: 'BP Level Over Time' }
+            }
+        }
+    });
+
+    
+
+    new Chart(document.getElementById("sleepChart"), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Sleep Hours',
+                data: sleep,
+                backgroundColor: '#4CAF50'
+            }]
+        },
+        options: {
+            ...commonOptions,
+            plugins: {
+                ...commonOptions.plugins,
+                title: { display: true, text: 'Daily Sleep Duration' }
+            }
+        }
+    });
+
+    new Chart(document.getElementById("waterChart"), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Water Intake (litres)',
+                data: water,
+                backgroundColor: '#00BCD4'
+            }]
+        },
+        options: {
+            ...commonOptions,
+            plugins: {
+                ...commonOptions.plugins,
+                title: { display: true, text: 'Water Intake Per Day' }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

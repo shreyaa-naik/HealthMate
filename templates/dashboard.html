@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HealthMate Dashboard</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f8fc;
+      display: flex;
+      color: #333;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: #006666;
+      color: white;
+      min-height: 100vh;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+    }
+
+    .sidebar h2 {
+      font-size: 1.6rem;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin: 15px 0;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      transition: 0.3s;
+    }
+
+    .sidebar a i {
+      margin-right: 10px;
+    }
+
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      padding-left: 10px;
+    }
+
+    /* Main content */
+    .main {
+      margin-left: 220px;
+      width: calc(100% - 220px);
+    }
+
+    header {
+      background: linear-gradient(135deg, #006666, #4ea1a1);
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .profile img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+
+    .hero {
+      padding: 20px 30px;
+    }
+
+    .hero h1 {
+      font-size: 1.8rem;
+    }
+
+    .clock {
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+
+    /* Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 18px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transition: 0.3s;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card i {
+      font-size: 2rem;
+      color: #006666;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Line Chart Placeholder */
+    .chart-container {
+      background: white;
+      border-radius: 18px;
+      margin: 20px 30px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    /* Reminder and calendar */
+    .grid-two {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      padding: 0 30px 30px 30px;
+    }
+
+    .reminders, .calendar {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    .reminders h2, .calendar h2 {
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      color: #006666;
+    }
+
+    .reminders ul {
+      list-style: none;
+    }
+
+    .reminders li {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .calendar iframe {
+      width: 100%;
+      height: 250px;
+      border: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .grid-two {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+ <div class="sidebar">
+  <h2>HealthMate</h2>
+  <a href="{{ url_for('dashboard') }}"><i class="fas fa-chart-line"></i> Dashboard</a>
+  <a href="{{ url_for('symptom_checker') }}"><i class="fas fa-stethoscope"></i> Symptom Checker</a>
+  <a href="{{ url_for('add_health_log') }}"><i class="fas fa-notes-medical"></i> Add Health Log</a>
+  <a href="{{ url_for('view_health_log') }}"><i class="fas fa-file-medical-alt"></i> View Health Log</a>
+  <a href="{{ url_for('bmi') }}"><i class="fas fa-weight"></i> BMI Calculator</a>
+  <a href="{{ url_for('health_stats') }}"><i class="fas fa-chart-pie"></i> Health Chart</a>
+  <a href="{{ url_for('medicine_expiry') }}"><i class="fas fa-capsules"></i> Medicine Expiry</a>
+  <a href="{{ url_for('download_report') }}"><i class="fas fa-download"></i> Download Report</a>
+  <a href="{{ url_for('profile') }}"><i class="fas fa-user"></i> Profile</a>
+</div>
+
+
+
+  <!-- Main Content -->
+  <div class="main">
+    <header>
+  <div>👋 Welcome</div>
+  
+</header>
+
+    <section class="hero">
+      <h1>Today’s Overview</h1>
+      <div class="clock" id="clock"></div>
+    </section>
+
+<div class="cards">
+  <div class="card">
+    <i class="fas fa-tint"></i>
+    <h3>Blood Pressure</h3>
+    <p>{{ health_log.blood_pressure if health_log else 'N/A' }}</p>
+  </div>
+  <div class="card">
+    <i class="fas fa-syringe"></i>
+    <h3>Glucose Level</h3>
+    <p>{{ health_log.glucose_level if health_log else 'N/A' }} mg/dL</p>
+  </div>
+  <div class="card">
+    <i class="fas fa-moon"></i>
+    <h3>Sleep Hours</h3>
+    <p>{{ health_log.sleep_hours if health_log else 'N/A' }} hrs</p>
+  </div>
+  <div class="card">
+    <i class="fas fa-glass-whiskey"></i>
+    <h3>Water Intake</h3>
+    <p>{{ health_log.water_intake if health_log else 'N/A' }} L</p>
+  </div>
+</div>
+
+
+
+
+<!-- Chart Section -->
+<div class="chart-container" style="margin: 40px auto; max-width: 700px; text-align: center;">
+  <h2 style="color:#006666;">Health Statistics</h2>
+  <canvas id="healthChart" width="600" height="300"></canvas>
+</div>
+
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('healthChart').getContext('2d');
+
+  const labels = [{% for log in health_logs %}"{{ log.log_date.strftime('%b %d') }}",{% endfor %}];
+
+  const avgBloodPressure = [
+    {% for log in health_logs %}
+      {{log.blood_pressure  | float if log.blood_pressure  else 0 }},
+    {% endfor %}
+  ];
+
+  const glucoseLevels = [
+    {% for log in health_logs %}
+      {{log.glucose_level | float if log.glucose_level else 0 }},
+    {% endfor %}
+  ];
+
+  const sleepHours = [
+    {% for log in health_logs %}
+      {{ log.sleep_hours | float if log.sleep_hours else 0 }},
+    {% endfor %}
+  ];
+
+  const waterIntake = [
+    {% for log in health_logs %}
+      {{ log.water_intake | float if log.water_intake else 0 }},
+    {% endfor %}
+  ];
+
+  const healthChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Avg Blood Pressure',
+          data: avgBloodPressure,
+          borderColor: '#36a2eb',
+          fill: false,
+          tension: 0.3
+        },
+        {
+          label: 'Glucose (mg/dL)',
+          data: glucoseLevels,
+          borderColor: '#4bc0c0',
+          fill: false,
+          tension: 0.3
+        },
+        {
+          label: 'Sleep Duration (hrs)',
+          data: sleepHours,
+          borderColor: '#9966ff',
+          fill: false,
+          tension: 0.3
+        },
+        {
+          label: 'Water Intake (L)',
+          data: waterIntake,
+          borderColor: '#f9a825',
+          fill: false,
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        legend: { position: 'top' },
+        title: {
+          display: true,
+          text: 'Health Overview'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+
+
+
+
+    <!-- Reminders & Calendar -->
+    
+<div class="grid-two">
+  <!-- 🧠 Health Tip of the Day -->
+  <div style="background: linear-gradient(135deg, #e0f7fa, #f1f8e9); border-left: 5px solid #006666; border-radius: 12px; padding: 20px 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin-bottom: 20px; transition: transform 0.3s ease;">
+  <div style="display: flex; align-items: center; margin-bottom: 15px;">
+    <span style="font-size: 1.8rem; margin-right: 10px;">🧠</span>
+    <h2 style="font-size: 1.5rem; font-weight: 600; color: #006666; margin: 0;">Health Tip of the Day</h2>
+  </div>
+  <div style="background-color: #ffffffee; padding: 15px; border-radius: 10px; border: 1px dashed #ccc;">
+    <p style="font-size: 1rem; font-weight: 500; color: #333; margin: 0 0 8px;">
+      🥦 <strong>Start your day with a glass of water and a few minutes of sunlight exposure.</strong>
+    </p>
+    <p style="font-size: 0.9rem; color: #555; font-style: italic; margin: 0;">
+      Boosts hydration 💧 and improves mood 🌞
+    </p>
+  </div>
+</div>
+
+  <!-- 📅 Calendar Widget -->
+  <div class="calendar">
+    <h2>📅 Calendar</h2>
+    <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&showTabs=0&showCalendars=0&mode=MONTH"
+      style="border:0" frameborder="0" scrolling="no"></iframe>
+  </div>
+</div>
+
+
+
+    <footer>
+      &copy; 2025 HealthMate. All rights reserved.
+    </footer>
+  </div>
+
+  <!-- Chart.js CDN -->
+  
+  <!-- Clock Script -->
+  
+</body>
+</html>

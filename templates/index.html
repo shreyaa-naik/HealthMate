@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Symptom Checker</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+
+  <!-- Select2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to right, #d7e9f7, #f2f9f5);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      padding: 30px 40px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2b6777;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #444;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .select2-container--default .select2-selection--multiple {
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      padding: 6px;
+      min-height: 44px;
+    }
+
+    button {
+      background-color: #52ab98;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 16px;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #408d7c;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-link a {
+      color: #2b6777;
+      text-decoration: none;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Symptom Checker</h2>
+    <form method="POST" action="/predict">
+      <label for="symptoms">Select Symptoms:</label>
+      <select id="symptoms" name="symptoms" multiple class="select2">
+        {% for symptom in symptoms %}
+          <option value="{{ symptom }}">{{ symptom }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Predict Disease</button>
+    </form>
+
+    <div class="back-link">
+      <a href="/dashboard">← Back to Dashboard</a>
+    </div>
+  </div>
+
+  <!-- jQuery + Select2 JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#symptoms').select2({
+        placeholder: "Type or select symptoms",
+        width: '100%'
+      });
+    });
+  </script>
+</body>
+</html>
